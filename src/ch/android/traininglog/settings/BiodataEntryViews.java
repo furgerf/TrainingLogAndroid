@@ -5,7 +5,6 @@ import android.widget.NumberPicker;
 import android.widget.NumberPicker.OnValueChangeListener;
 import ch.android.traininglog.R;
 import ch.android.traininglog.main.BiodataEntryActivity;
-import ch.android.traininglog.main.MainActivity;
 
 final public class BiodataEntryViews {
 	private final static String TAG = BiodataEntryViews.class.getSimpleName();
