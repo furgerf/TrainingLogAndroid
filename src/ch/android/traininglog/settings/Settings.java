@@ -13,6 +13,8 @@ final public class Settings {
 
 	// keys
 	private final static String KEY_SLEEP_DURATION = "sleepDuration";
+	private static final String KEY_SLEEP_QUALITY_INDEX = "sleepQualityIndex";
+	private static final String KEY_FEELING_INDEX = "feelingIndex";
 	
 	// preferences
 	private static SharedPreferences mPreferences = PreferenceManager
@@ -40,9 +42,21 @@ final public class Settings {
 	public static boolean setSleepDuration(final int sleepDuration){
 		return setKeyValue(KEY_SLEEP_DURATION, sleepDuration);
 	}
-	
+	public static int getSleepQualityIndex(){
+		return Integer.parseInt(mPreferences.getString(KEY_SLEEP_QUALITY_INDEX, "2"));
+	}
+	public static boolean setSleepQualityIndex(final int sleepQualityIndex) {
+		return setKeyValue(KEY_SLEEP_QUALITY_INDEX, sleepQualityIndex);
+	}	
+	public static int getFeelingIndex(){
+		return Integer.parseInt(mPreferences.getString(KEY_FEELING_INDEX, "2"));
+	}
+	public static boolean setFeelingIndex(final int feelingIndex) {
+		return setKeyValue(KEY_FEELING_INDEX, feelingIndex);
+	}
 	// don't instantiate, use static methods
 	private Settings(){
 		
 	}
+
 }

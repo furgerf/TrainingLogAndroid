@@ -1,10 +1,13 @@
 package ch.android.traininglog.settings;
 
 import android.util.Log;
+import android.widget.EditText;
+import android.widget.MultiAutoCompleteTextView;
 import android.widget.NumberPicker;
 import android.widget.NumberPicker.OnValueChangeListener;
 import ch.android.traininglog.R;
 import ch.android.traininglog.main.BiodataEntryActivity;
+import ch.android.traininglog.main.Index;
 
 final public class BiodataEntryViews {
 	private final static String TAG = BiodataEntryViews.class.getSimpleName();
@@ -15,6 +18,14 @@ final public class BiodataEntryViews {
 	
 	// views
 	private final NumberPicker numSleepDuration;
+	private final NumberPicker numSleepQuality;
+	private final NumberPicker numFeeling;
+	private final NumberPicker numRestingHeartRate;
+	private final EditText txtOwnIndex;
+	private final EditText txtWeight;
+	private final MultiAutoCompleteTextView txtNiggle;
+	private final MultiAutoCompleteTextView txtNote;
+	
 
 	// listeners
 	private final OnValueChangeListener valueChangeListener = new OnValueChangeListener() {
@@ -26,8 +37,14 @@ final public class BiodataEntryViews {
 			switch (picker.getId()) {
 			case R.id.num_sleep_duration:
 				if (!Settings.setSleepDuration(newVal))
-					Log.e(TAG, "couldnt save new value for series, " + newVal);
+					Log.e(TAG, "couldnt save new value for sleep duration, " + newVal);
 				break;
+			case R.id.num_sleep_quality:
+				if (!Settings.setSleepQualityIndex(newVal))
+					Log.e(TAG, "couldnt save new value for sleep quality, " + newVal);
+			case R.id.num_feeling:
+				if (!Settings.setFeelingIndex(newVal))
+					Log.e(TAG, "couldnt save new value for feeling, " + newVal);
 			default:
 				Log.w(TAG,
 						"unhandled change of value with id " + picker.getId()
@@ -97,7 +114,21 @@ final public class BiodataEntryViews {
 		// find views
 		numSleepDuration = (NumberPicker) BiodataEntryActivity.getActivity().findViewById(
 				R.id.num_sleep_duration);
-
+		numSleepQuality = (NumberPicker) BiodataEntryActivity.getActivity().findViewById(
+				R.id.num_sleep_quality);
+		numFeeling = (NumberPicker) BiodataEntryActivity.getActivity().findViewById(
+				R.id.num_feeling);
+		numRestingHeartRate= (NumberPicker) BiodataEntryActivity.getActivity().findViewById(
+				R.id.num_resting_hr);
+		txtOwnIndex = (EditText) BiodataEntryActivity.getActivity().findViewById(
+				R.id.txt_vo2_max);
+		txtWeight = (EditText) BiodataEntryActivity.getActivity().findViewById(
+				R.id.txt_weight);
+		txtNiggle = (MultiAutoCompleteTextView) BiodataEntryActivity.getActivity().findViewById(
+				R.id.txt_niggle);
+		txtNote = (MultiAutoCompleteTextView) BiodataEntryActivity.getActivity().findViewById(
+				R.id.txt_note);
+		
 		// set range, value, etc
 		initializeViews();
 	}
@@ -115,6 +146,21 @@ final public class BiodataEntryViews {
 		numSleepDuration.setOnValueChangedListener(valueChangeListener);
 		numSleepDuration.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 		
-		
+		final String[] indexValues = new String[5];
+		for (int i = 0; i < 5; i++)
+			indexValues[i] = Index.values()[i].toString();
+		numSleepQuality.setDisplayedValues(indexValues);
+		numSleepQuality.setMinValue(0);
+		numSleepQuality.setMaxValue(indexValues.length - 1);
+		numSleepQuality.setValue(Settings.getSleepQualityIndex());
+		numSleepQuality.setOnValueChangedListener(valueChangeListener);
+		numSleepQuality.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+
+		numFeeling.setDisplayedValues(indexValues);
+		numFeeling.setMinValue(0);
+		numFeeling.setMaxValue(indexValues.length - 1);
+		numFeeling.setValue(Settings.getFeelingIndex());
+		numFeeling.setOnValueChangedListener(valueChangeListener);
+		numFeeling.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 	}
 }
