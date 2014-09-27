@@ -1,19 +1,35 @@
 package ch.android.traininglog.main;
 
-import ch.android.traininglog.R;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import ch.android.traininglog.R;
 
 public class MainActivity extends Activity {
 
+	private static MainActivity mInstance;
+	
+	public static MainActivity getActivity(){
+		return mInstance;
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-	}
 
+		mInstance = this;		
+
+		// don't load main layout
+//		setContentView(R.layout.activity_main);
+		
+		// autostart biodata entry
+		final Intent intent = new Intent(this, BiodataEntryActivity.class);
+		startActivity(intent);
+//		BiodataSettingsViews.initialize();
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
