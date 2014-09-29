@@ -5,11 +5,14 @@
     <string name="biodata_entry_name">Enter Biodata</string>
     <string name="action_settings">Settings</string>
     
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    
     <string name="biodata_sleep_duration">Sleep Duration</string>
     <string name="biodata_sleep_quality">Sleep Quality</string>
     <string name="biodata_feeling">Feeling</string>
-	<string name="biodata_resting_hr">Resting Heart Rate</string>
-	<string name="biodata_vo2_max">VO2 Max (Own Index)</string>
+	<string name="biodata_resting_hr">Resting HR</string>
+	<string name="biodata_vo2_max">OwnIndex</string>
 	<string name="biodata_weight">Weight</string>
 	<string name="biodata_niggle">Niggle</string>
 	<string name="biodata_note">Note</string>

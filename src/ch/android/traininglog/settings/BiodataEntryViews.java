@@ -126,8 +126,8 @@ final public class BiodataEntryViews {
 		numFeeling
 				.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
-//		numRestingHeartRate.setMinValue(0);
-//		numRestingHeartRate.setMaxValue(200);
+		numRestingHeartRate.setMinValue(0);
+		numRestingHeartRate.setMaxValue(200);
 		numRestingHeartRate.setValue(Settings.getRestingHr());
 		numRestingHeartRate.setOnValueChangedListener(valueChangeListener);
 		numRestingHeartRate
