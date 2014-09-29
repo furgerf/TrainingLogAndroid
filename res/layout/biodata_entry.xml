@@ -9,7 +9,6 @@
     tools:context="ch.android.traininglog.main.MainActivity" >
 
     <TableRow
-        android:id="@+id/tableRow1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
 
@@ -27,15 +26,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/biodata_feeling" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/biodata_resting_hr" />
     </TableRow>
 
     <TableRow
-        android:id="@+id/tableRow2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
 
@@ -53,33 +46,42 @@
             android:id="@+id/num_feeling"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-
-        <NumberPicker
-            android:id="@+id/num_resting_hr"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
     </TableRow>
 
     <TableRow
-        android:id="@+id/tableRow3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/biodata_resting_hr" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/biodata_vo2_max" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/biodata_weight" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <NumberPicker
+            android:id="@+id/num_resting_hr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
         <EditText
             android:id="@+id/txt_vo2_max"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="number" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/biodata_weight" />
 
         <EditText
             android:id="@+id/txt_weight"
@@ -89,7 +91,6 @@
     </TableRow>
 
     <TableRow
-        android:id="@+id/tableRow4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
 
@@ -97,23 +98,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/biodata_niggle" />
-    </TableRow>
-
-    <TableRow
-        android:id="@+id/tableRow5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
 
         <MultiAutoCompleteTextView
             android:id="@+id/txt_niggle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_span="4"
+            android:layout_span="3"
             android:inputType="text" />
     </TableRow>
 
     <TableRow
-        android:id="@+id/tableRow6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
 
@@ -121,18 +115,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/biodata_note" />
-    </TableRow>
-
-    <TableRow
-        android:id="@+id/tableRow7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
 
         <MultiAutoCompleteTextView
             android:id="@+id/txt_note"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_span="4"
+            android:layout_span="3"
             android:inputType="text" />
     </TableRow>
 
