@@ -1,4 +1,7 @@
-package ch.android.traininglog.xml;
+package ch.android.traininglog.xml.main;
+
+import ch.android.traininglog.xml.classes.BiodataEntry;
+import ch.android.traininglog.xml.classes.EntryList;
 
 import com.thoughtworks.xstream.XStream;
 
@@ -19,7 +22,7 @@ public class XmlParser {
 		data = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<EntryList xmlns:xsi=\"http://www.w3.org/2001/" + 
 				"XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">" + data.substring(data.indexOf('\n'));
 				
-		return data;
+		return data.replace("\n", System.getProperty("line.separator"));
 	}
 	
 	

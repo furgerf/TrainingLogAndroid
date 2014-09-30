@@ -1,4 +1,4 @@
-package ch.android.traininglog.xml;
+package ch.android.traininglog.xml.classes;
 
 import ch.android.traininglog.main.Index;
 

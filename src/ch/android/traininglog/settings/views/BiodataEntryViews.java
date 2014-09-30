@@ -1,5 +1,6 @@
-package ch.android.traininglog.settings;
+package ch.android.traininglog.settings.views;
 
+import android.app.Activity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -8,15 +9,14 @@ import android.widget.MultiAutoCompleteTextView;
 import android.widget.NumberPicker;
 import android.widget.NumberPicker.OnValueChangeListener;
 import ch.android.traininglog.R;
-import ch.android.traininglog.main.BiodataEntryActivity;
 import ch.android.traininglog.main.Index;
+import ch.android.traininglog.settings.Settings;
 
 final public class BiodataEntryViews {
 	private final static String TAG = BiodataEntryViews.class.getSimpleName();
 
-	private static BiodataEntryViews mInstance;
-
-	private final static Object LOCK = new Object();
+	private final static String[] SLEEP_VALUES = new String[49];
+	private final static String[] INDEX_VALUES = new String[5];
 
 	// views
 	private final NumberPicker numSleepDuration;
@@ -28,6 +28,11 @@ final public class BiodataEntryViews {
 	private final MultiAutoCompleteTextView txtNiggle;
 	private final MultiAutoCompleteTextView txtNote;
 
+	// public access
+	public String getSleepDuration(){
+		return SLEEP_VALUES[numSleepDuration.getValue()];
+	}
+	
 	// listeners
 	private final OnValueChangeListener valueChangeListener = new OnValueChangeListener() {
 		@Override
@@ -60,34 +65,17 @@ final public class BiodataEntryViews {
 		}
 	};
 
-	// public access
-	public static void initialize() {
-		synchronized (LOCK) {
-			if (mInstance == null) {
-				mInstance = new BiodataEntryViews();
-			}
-		}
-	}
-
 	// constructor, instantiates views
-	private BiodataEntryViews() {
+	public BiodataEntryViews(final Activity activity) {
 		// find views
-		numSleepDuration = (NumberPicker) BiodataEntryActivity.getActivity()
-				.findViewById(R.id.num_sleep_duration);
-		numSleepQuality = (NumberPicker) BiodataEntryActivity.getActivity()
-				.findViewById(R.id.num_sleep_quality);
-		numFeeling = (NumberPicker) BiodataEntryActivity.getActivity()
-				.findViewById(R.id.num_feeling);
-		numRestingHeartRate = (NumberPicker) BiodataEntryActivity.getActivity()
-				.findViewById(R.id.num_resting_hr);
-		txtVo2Max = (EditText) BiodataEntryActivity.getActivity().findViewById(
-				R.id.txt_vo2_max);
-		txtWeight = (EditText) BiodataEntryActivity.getActivity().findViewById(
-				R.id.txt_weight);
-		txtNiggle = (MultiAutoCompleteTextView) BiodataEntryActivity
-				.getActivity().findViewById(R.id.txt_niggle);
-		txtNote = (MultiAutoCompleteTextView) BiodataEntryActivity
-				.getActivity().findViewById(R.id.txt_note);
+		numSleepDuration = (NumberPicker) activity.findViewById(R.id.num_sleep_duration);
+		numSleepQuality = (NumberPicker) activity.findViewById(R.id.num_sleep_quality);
+		numFeeling = (NumberPicker) activity.findViewById(R.id.num_feeling);
+		numRestingHeartRate = (NumberPicker) activity.findViewById(R.id.num_resting_hr);
+		txtVo2Max = (EditText) activity.findViewById(R.id.txt_vo2_max);
+		txtWeight = (EditText) activity.findViewById(R.id.txt_weight);
+		txtNiggle = (MultiAutoCompleteTextView) activity.findViewById(R.id.txt_niggle);
+		txtNote = (MultiAutoCompleteTextView) activity.findViewById(R.id.txt_note);
 
 		// set range, value, etc
 		initializeViews();
@@ -96,31 +84,29 @@ final public class BiodataEntryViews {
 	// sets view properties
 	private void initializeViews() {
 		// sleep duration: 0, 0.5, ... 24
-		final String[] sleepValues = new String[49];
 		for (float i = 0; i < 49; i++)
-			sleepValues[(int) i] = Float.valueOf(i / 2).toString();
-		numSleepDuration.setDisplayedValues(sleepValues);
+			SLEEP_VALUES[(int) i] = Float.valueOf(i / 2).toString();
+		numSleepDuration.setDisplayedValues(SLEEP_VALUES);
 		numSleepDuration.setMinValue(0);
-		numSleepDuration.setMaxValue(sleepValues.length - 1);
+		numSleepDuration.setMaxValue(SLEEP_VALUES.length - 1);
 		numSleepDuration.setValue(Settings.getSleepDuration());
 		numSleepDuration.setOnValueChangedListener(valueChangeListener);
 		numSleepDuration
 				.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
-		final String[] indexValues = new String[5];
 		for (int i = 0; i < 5; i++)
-			indexValues[i] = Index.values()[i].toString();
-		numSleepQuality.setDisplayedValues(indexValues);
+			INDEX_VALUES[i] = Index.values()[i].toString();
+		numSleepQuality.setDisplayedValues(INDEX_VALUES);
 		numSleepQuality.setMinValue(0);
-		numSleepQuality.setMaxValue(indexValues.length - 1);
+		numSleepQuality.setMaxValue(INDEX_VALUES.length - 1);
 		numSleepQuality.setValue(Settings.getSleepQualityIndex());
 		numSleepQuality.setOnValueChangedListener(valueChangeListener);
 		numSleepQuality
 				.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
-		numFeeling.setDisplayedValues(indexValues);
+		numFeeling.setDisplayedValues(INDEX_VALUES);
 		numFeeling.setMinValue(0);
-		numFeeling.setMaxValue(indexValues.length - 1);
+		numFeeling.setMaxValue(INDEX_VALUES.length - 1);
 		numFeeling.setValue(Settings.getFeelingIndex());
 		numFeeling.setOnValueChangedListener(valueChangeListener);
 		numFeeling

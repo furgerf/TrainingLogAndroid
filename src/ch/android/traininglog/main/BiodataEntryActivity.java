@@ -6,89 +6,96 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
-import android.R.xml;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Environment;
-import android.widget.TextView;
+import android.view.View;
 import ch.android.traininglog.R;
-import ch.android.traininglog.settings.BiodataEntryViews;
-import ch.android.traininglog.xml.BiodataEntry;
-import ch.android.traininglog.xml.EntryList;
-import ch.android.traininglog.xml.XmlParser;
+import ch.android.traininglog.settings.views.BiodataEntryViews;
+import ch.android.traininglog.xml.classes.BiodataEntry;
+import ch.android.traininglog.xml.classes.EntryList;
+import ch.android.traininglog.xml.main.XmlParser;
 
 public class BiodataEntryActivity extends Activity {
+	// fields
+	private final ArrayList<BiodataEntry> mEntries = new ArrayList<BiodataEntry>();
+	private final BiodataEntryViews mViews = new BiodataEntryViews(this);
+	
+	// event handling
+	@SuppressLint("SimpleDateFormat")
+	public void butOkClick(final View view) {
+		final BiodataEntry be = new BiodataEntry();
 
-	private static BiodataEntryActivity mInstance;
-	
-	public static BiodataEntryActivity getActivity(){
-		return mInstance;
+		final Date date = Calendar.getInstance().getTime();
+		
+		be.EntryDate = new SimpleDateFormat("yyyy-MM-dd").format(date) + "T00:00:00+01:00";
+		be.SleepDuration = mViews.getSleepDuration();
+		
+		//TODO
+		
+		mEntries.add(be);
+		saveBiodataEntries();
+
+		finish();
 	}
-	
+
+	public void butCancelClick(final View view) {
+		finish();
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.biodata_entry);
-		
-		mInstance = this;
-		
-		BiodataEntryViews.initialize();
-		
-		EntryList foo = new EntryList();
-		foo.BiodataEntryArray = new BiodataEntry[1];
-		BiodataEntry bar = new BiodataEntry();
-		//bar.EntryDate = Calendar.getInstance().getTime();
-		bar.Feeling = Index.Bad;
-		bar.SleepQuality = Index.Fantastic;
-		bar.Niggles = "niggle";
-		bar.Note = "note";
-		bar.OwnIndex = 73;
-		bar.RestingHR = 52;
-		bar.SleepDuration = "8.5";
-		bar.Weight = 64.4;
-		
-		foo.BiodataEntryArray[0] = bar;
-		
-		String res = XmlParser.serializeBiodataEntries(foo);
-		
-		
-		
-		File sdcard = Environment.getExternalStorageDirectory();
-		File file = new File(sdcard, "/TrainingLog/biodata.xml");
-		StringBuilder text = new StringBuilder();
-		try {
-		    BufferedReader br = new BufferedReader(new FileReader(file));
-		    String line;
 
-		    while ((line = br.readLine()) != null) {
-		        text.append(line);
-		        text.append('\n');
-		    }
-		    br.close();
-		}
-		catch (IOException e) {
-		    //You'll need to add proper error handling here
-		}
-		
-		BiodataEntry[] entries = XmlParser.deserializeBiodataEntries(text.toString());
-		EntryList asdf = new EntryList();
-		asdf.BiodataEntryArray = entries;
-		
-		file = new File(sdcard, "/TrainingLog/biodata2.xml");
+		new Thread() {
+			public void run() {
+				loadBiodataEntries();
+			}
+		}.start();
+	}
+
+	private void loadBiodataEntries() {
+		final File file = new File(Environment.getExternalStorageDirectory(),
+				"/TrainingLog/biodata.xml");
+		final StringBuilder text = new StringBuilder();
 		try {
-		    BufferedWriter br = new BufferedWriter(new FileWriter(file));
-		    br.write(XmlParser.serializeBiodataEntries(asdf));
-		    br.flush();
-		    br.close();
+			final BufferedReader br = new BufferedReader(new FileReader(file));
+			String line;
+
+			while ((line = br.readLine()) != null) {
+				text.append(line);
+				text.append('\n');
+			}
+			br.close();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		catch (IOException e) {
-		    //You'll need to add proper error handling here
+
+		mEntries.clear();
+		for (final BiodataEntry be : XmlParser.deserializeBiodataEntries(text
+				.toString()))
+			mEntries.add(be);
+	}
+
+	private void saveBiodataEntries() {
+		final File file = new File(Environment.getExternalStorageDirectory(),
+				"/TrainingLog/biodata.xml");
+		try {
+			final BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+
+			bw.write(XmlParser.serializeBiodataEntries(new EntryList(
+					(BiodataEntry[]) mEntries.toArray())));
+			bw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		
-		
-		
-		text.append("ldsfj");
+
 	}
 }
