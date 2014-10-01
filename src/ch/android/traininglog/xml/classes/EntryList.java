@@ -6,4 +6,8 @@ public class EntryList {
 	public EntryList(BiodataEntry[] biodataEntries){
 		BiodataEntryArray = biodataEntries;
 	}
+	
+	public EntryList(){
+		
+	}
 }

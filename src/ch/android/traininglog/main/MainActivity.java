@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import ch.android.traininglog.R;
+import ch.android.traininglog.dropbox.Dropbox;
 
 public class MainActivity extends Activity {
 
@@ -13,6 +14,13 @@ public class MainActivity extends Activity {
 	
 	public static MainActivity getActivity(){
 		return mInstance;
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		
+		Dropbox.resumeDropbox();
 	}
 	
 	@Override

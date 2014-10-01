@@ -32,6 +32,27 @@ final public class BiodataEntryViews {
 	public String getSleepDuration(){
 		return SLEEP_VALUES[numSleepDuration.getValue()];
 	}
+	public Index getSleepQuality(){
+		return Index.values()[numSleepQuality.getValue()];
+	}
+	public Index getFeeling(){
+		return Index.values()[numFeeling.getValue()];
+	}
+	public Integer getRestingHeartRate(){
+		return numRestingHeartRate.getValue();
+	}
+	public Integer getVo2Max(){
+		return Integer.parseInt(txtVo2Max.getText().toString());
+	}
+	public Double getWeight(){
+		return Double.parseDouble(txtWeight.getText().toString());
+	}
+	public String getNiggle(){
+		return txtNiggle.getText().toString();
+	}
+	public String getNote(){
+		return txtNote.getText().toString();
+	}
 	
 	// listeners
 	private final OnValueChangeListener valueChangeListener = new OnValueChangeListener() {
