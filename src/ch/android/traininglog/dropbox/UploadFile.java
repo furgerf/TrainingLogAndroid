@@ -27,8 +27,8 @@ public class UploadFile extends AsyncTask<Void, Long, Boolean> {
 			Log.d(TAG, "Starting upload of " + mFile.getName());
 			FileInputStream inputStream;
 			inputStream = new FileInputStream(mFile);
-			Entry response = mDBApi.putFile(mFile.getName(), inputStream,
-					mFile.length(), null, null);
+			Entry response = mDBApi.putFileOverwrite(mFile.getName(), inputStream,
+					mFile.length(), null);
 			Log.i(TAG, "Uploaded file, rev is: " + response.rev);
 		} catch (Exception e) {
 			mException = e;

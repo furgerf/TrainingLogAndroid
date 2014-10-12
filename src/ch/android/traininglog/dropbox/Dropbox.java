@@ -11,6 +11,7 @@ import java.util.Queue;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
+import android.widget.Toast;
 import ch.android.traininglog.main.BiodataEntryActivity;
 import ch.android.traininglog.settings.Settings;
 
@@ -147,22 +148,32 @@ public class Dropbox {
 			mInstance.mTaskQueue.add(task);
 	}
 
-	public static void onDropboxActionComplete(File file) {
+	public static void onDropboxActionComplete(final File file) {
 		if (!mFileActions.containsKey(file)) {
 			Log.e(TAG, "Couldnt find key " + file.getName()
 					+ ", aborting action!");
-		} else {
-			switch (mFileActions.get(file)) {
-			case LOAD_BIODATA_ENTRIES:
-				BiodataEntryActivity.getActivity().loadBiodataEntries(file);
-				break;
-			case NONE:
-				break;
-			default:
-				Log.w(TAG, "Unknown action: "
-						+ mFileActions.get(file).toString());
-				break;
-			}
+		} else if (mFileActions.get(file) != null)
+			executePostDropboxAction(file, mFileActions.get(file));
+	}
+
+	private static void executePostDropboxAction(final File file,
+			final PostDropboxAction action) {
+		switch (action.type) {
+		case LOAD_BIODATA_ENTRIES:
+			BiodataEntryActivity.getActivity().loadBiodataEntries(file);
+			break;
+		case NONE:
+			break;
+		case TOAST:
+			Toast.makeText(BiodataEntryActivity.getActivity(),
+					action.getMessage(), Toast.LENGTH_LONG).show();
+			break;
+		default:
+			Log.w(TAG, "Unknown action: " + mFileActions.get(file).toString());
+			break;
 		}
+
+		if (action.nextAction != null)
+			executePostDropboxAction(file, action.nextAction);
 	}
 }

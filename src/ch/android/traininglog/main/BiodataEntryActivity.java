@@ -82,7 +82,7 @@ public class BiodataEntryActivity extends Activity {
 		}
 
 		Log.d(TAG, "Triggering upload of Biodata log");
-		Dropbox.uploadFile(file, PostDropboxAction.NONE);
+		Dropbox.uploadFile(file, PostDropboxAction.Toast(null, "New Biodata Log uploaded!"));
 
 		finish();
 	}
@@ -103,8 +103,7 @@ public class BiodataEntryActivity extends Activity {
 
 		Log.d(TAG,
 				"BiodataEntryActivity created, downloading Biodata Entries...");
-		Dropbox.downloadFile(new File(APP_PATH + BIODATA_LOG_NAME),
-				PostDropboxAction.LOAD_BIODATA_ENTRIES);
+		Dropbox.downloadFile(new File(APP_PATH + BIODATA_LOG_NAME), PostDropboxAction.LoadBiodataEntries(PostDropboxAction.Toast(null, "Biodata Log downloaded!")));
 	}
 
 	@Override
