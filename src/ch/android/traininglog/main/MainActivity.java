@@ -1,43 +1,33 @@
 package ch.android.traininglog.main;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import ch.android.traininglog.R;
-import ch.android.traininglog.dropbox.Dropbox;
 
 public class MainActivity extends Activity {
+	private final static String TAG = MainActivity.class.getSimpleName();
 
 	private static MainActivity mInstance;
-	
-	public static MainActivity getActivity(){
+
+	public static MainActivity getActivity() {
 		return mInstance;
 	}
-	
-	@Override
-	protected void onResume() {
-		super.onResume();
-		
-		Dropbox.resumeDropbox();
-	}
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		mInstance = this;		
+		mInstance = this;
 
 		// don't load main layout
-//		setContentView(R.layout.activity_main);
+		setContentView(R.layout.activity_main);
 		
-		// autostart biodata entry
-		final Intent intent = new Intent(this, BiodataEntryActivity.class);
-		startActivity(intent);
-//		BiodataSettingsViews.initialize();
+		Log.d(TAG, "MainActivity created");
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.

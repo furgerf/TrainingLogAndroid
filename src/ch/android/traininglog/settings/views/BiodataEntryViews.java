@@ -42,16 +42,16 @@ final public class BiodataEntryViews {
 		return numRestingHeartRate.getValue();
 	}
 	public Integer getVo2Max(){
-		return Integer.parseInt(txtVo2Max.getText().toString());
+		return txtVo2Max.getText().toString().isEmpty() ? null : Integer.parseInt(txtVo2Max.getText().toString());
 	}
 	public Double getWeight(){
-		return Double.parseDouble(txtWeight.getText().toString());
+		return txtWeight.getText().toString().isEmpty() ? null : Double.parseDouble(txtWeight.getText().toString());
 	}
 	public String getNiggle(){
-		return txtNiggle.getText().toString();
+		return txtNiggle.getText().toString().isEmpty() ? null : txtNiggle.getText().toString();
 	}
 	public String getNote(){
-		return txtNote.getText().toString();
+		return txtNote.getText().toString().isEmpty() ? null : txtNote.getText().toString();
 	}
 	
 	// listeners

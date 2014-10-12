@@ -4,7 +4,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import ch.android.traininglog.main.MainActivity;
+import ch.android.traininglog.main.BiodataEntryActivity;
 
 final public class Settings {
 	private final static String TAG = Settings.class.getSimpleName();
@@ -20,10 +20,12 @@ final public class Settings {
 	private static final String KEY_WEIGHT = "weight";
 	private static final String KEY_NIGGLE = "niggle";
 	private static final String KEY_NOTE = "note";
+
+	private static final String KEY_ACCESS_TOKEN = "accessToken";
 	
 	// preferences
 	private static SharedPreferences mPreferences = PreferenceManager
-			.getDefaultSharedPreferences(MainActivity.getActivity());
+			.getDefaultSharedPreferences(BiodataEntryActivity.getActivity());
 
 	private static boolean setKeyValue(final String key, final Object value) {
 		final Editor editor = mPreferences.edit();
@@ -89,6 +91,14 @@ final public class Settings {
 	public static boolean setNote(final String note) {
 		return setKeyValue(KEY_NOTE, note);
 	}
+
+	public static String getAccessToken(){
+		return mPreferences.getString(KEY_ACCESS_TOKEN, "");
+	}
+	public static boolean setAccessToken(final String token) {
+		return setKeyValue(KEY_ACCESS_TOKEN, token);
+	}
+	
 	// don't instantiate, use static methods
 	private Settings(){
 		
