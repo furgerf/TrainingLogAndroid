@@ -81,10 +81,26 @@ public class Dropbox {
 					BiodataEntryActivity.getActivity());
 		} else {
 			Log.d(TAG, "Using stored access token!");
-			AppKeyPair appKeyPair = new AppKeyPair(APP_KEY, APP_SECRET);
-			AndroidAuthSession session = new AndroidAuthSession(appKeyPair);
+			// create app key pair
+			final AppKeyPair appKeyPair = new AppKeyPair(APP_KEY, APP_SECRET);
+			// create session with key pair
+			final AndroidAuthSession session = new AndroidAuthSession(
+					appKeyPair);
+			// set previously stored access token
 			session.setOAuth2AccessToken(Settings.getAccessToken());
+			// create db api
 			mInstance.mDBApi = new DropboxAPI<AndroidAuthSession>(session);
+			// start authentification (create db link)
+//			mInstance.mDBApi.getSession().startOAuth2Authentication(
+//					BiodataEntryActivity.getActivity());
+
+			if (!session.isLinked()) {
+				Log.e(TAG, "Dropbox link could not be established, aborting...");
+				Toast.makeText(BiodataEntryActivity.getActivity(),
+						"No dropbox link, aborting...", Toast.LENGTH_LONG)
+						.show();
+				BiodataEntryActivity.getActivity().finish();
+			}
 		}
 		Log.d(TAG, "Dropbox instance created");
 	}
@@ -111,10 +127,9 @@ public class Dropbox {
 				// session
 				mDBApi.getSession().finishAuthentication();
 
-				String accessToken = mDBApi.getSession().getOAuth2AccessToken();
-
 				// store access token
-				Settings.setAccessToken(accessToken);
+				Settings.setAccessToken(mDBApi.getSession()
+						.getOAuth2AccessToken());
 
 				mGettingAccessToken = false;
 				Log.d(TAG, "Access token received! :)");
